@@ -1,10 +1,11 @@
 version: '2'
 services:
   apache:
-    image: rafaelcgstz/magento2
+    image: gninkovic/clean-docker
     # build: .
+    hostname: apache
     ports:
-      - "80:80" # web
+      - "8080:80" # web
       - "9001:9000" # xdebug
       # - "35729:35729" # live reload
     volumes:
@@ -13,6 +14,7 @@ services:
       - ~/.npm:/var/www/.npm
       # - ~/.nvm:/var/www/.nvm
     environment:
+      PORT: "8080"
       XDEBUG_CONFIG: "remote_host=localhost"
       PHP_IDE_CONFIG: "serverName=Docker"
     depends_on:
@@ -24,8 +26,9 @@ services:
 
   db:
     image: mariadb
+    hostname: mariadb
     ports:
-     - 3300:3306
+      - 3300:3306
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=magento
@@ -38,38 +41,76 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    hostname: phpmyadmin
     environment:
-     - PMA_HOST=db
-     - PMA_USER=root
-     - PMA_PASSWORD=root
-     - MYSQL_ROOT_PASSWORD=root
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
     ports:
-     - 8080:80
+      - 8081:80
+    networks:
+      - <project_name>-network
+
+  elasticsearch:
+    image: elasticsearch:5.6
+    hostname: elasticsearch
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./elasticsearchdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
     networks:
       - <project_name>-network
 
   redis:
     image: redis
+    hostname: redis
     ports:
-     - 6379
+      - 6379
     networks:
       - <project_name>-network
 
   redis-session:
+    hostname: redis-session
     image: redis
     ports:
-     - 6379
+      - 6379
     networks:
       - <project_name>-network
-
-  mailhog:
-    image: mailhog/mailhog
+  varnish:
+    hostname: varnish-server
+    build:
+      context: .docker/varnish_server
     ports:
-      - 1025:1025
-      - 8025:8025
+      - "80:80"
+      - "6082:6082"
+    volumes:
+      - .docker/varnish_serverdefault.vcl:/etc/varnish/default.vcl
+      - .docker/varnish_servervarnish:/etc/default/varnish
+      - .docker/varnish_serversupervisord.conf:/etc/supervisor/conf.d/supervisor.conf
+    depends_on:
+      - apache
+    links:
+      - apache
     networks:
       - <project_name>-network
 
+
+#  mailhog:
+#    image: mailhog/mailhog
+#    ports:
+#      - 1025:1025
+#      - 8025:8025
+#    networks:
+#      - <project_name>-network
 networks:
   <project_name>-network:
     driver: bridge
