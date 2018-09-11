@@ -1,6 +1,6 @@
-FROM php:7.0-apache
+FROM php:7.1-apache
 
-MAINTAINER Rafael Corrêa Gomes <rafaelcgstz@gmail.com>
+MAINTAINER Goran Ninkovic <g.ninkovic@beeit.rs>
 
 ENV XDEBUG_PORT 9000
 
@@ -13,7 +13,7 @@ RUN apt-get update \
 	&& DEBIAN_FRONTEND=noninteractive apt-get install -y \
 	libfreetype6-dev \
 	libicu-dev \
-  libssl-dev \
+	libssl-dev \
 	libjpeg62-turbo-dev \
 	libmcrypt-dev \
 	libedit-dev \
@@ -24,6 +24,8 @@ RUN apt-get update \
 	redis-tools \
 	mysql-client \
 	git \
+	zsh \
+	nano \
 	vim \
 	wget \
 	curl \
@@ -32,45 +34,47 @@ RUN apt-get update \
 	unzip \
 	tar \
 	cron \
+	sed \
 	bash-completion \
 	&& apt-get clean
+
 
 # Install Magento Dependencies
 
 RUN docker-php-ext-configure \
-  	gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/; \
-  	docker-php-ext-install \
-  	opcache \
-  	gd \
-  	bcmath \
-  	intl \
-  	mbstring \
-  	mcrypt \
-  	pdo_mysql \
-  	soap \
-  	xsl \
-  	zip
+	gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/; \
+	docker-php-ext-install \
+	opcache \
+	gd \
+	bcmath \
+	intl \
+	mbstring \
+	mcrypt \
+	pdo_mysql \
+	soap \
+	xsl \
+	zip
 
 # Install oAuth
 
 RUN apt-get update \
-  	&& apt-get install -y \
-  	libpcre3 \
-  	libpcre3-dev \
-  	# php-pear \
-  	&& pecl install oauth \
-  	&& echo "extension=oauth.so" > /usr/local/etc/php/conf.d/docker-php-ext-oauth.ini
+	&& apt-get install -y \
+	libpcre3 \
+	libpcre3-dev \
+	# php-pear \
+	&& pecl install oauth \
+	&& echo "extension=oauth.so" > /usr/local/etc/php/conf.d/docker-php-ext-oauth.ini
 
 # Install Node, NVM, NPM and Grunt
 
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
-  	&& apt-get install -y nodejs build-essential \
-    && curl https://raw.githubusercontent.com/creationix/nvm/v0.16.1/install.sh | sh \
-    && npm i -g grunt-cli yarn
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+	&&  apt-get install -y nodejs build-essential \
+	&& curl https://raw.githubusercontent.com/creationix/nvm/v0.16.1/install.sh | sh \
+	&& npm i -g grunt-cli yarn
 
 # Install Composer
 
-RUN	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
 RUN composer global require hirak/prestissimo
 
 # Install Code Sniffer
@@ -84,14 +88,14 @@ ENV PATH="/var/www/.composer/vendor/bin/:${PATH}"
 # Install XDebug
 
 RUN yes | pecl install xdebug && \
-	 echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.iniOLD
+	echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.iniOLD
 
 # Install Mhsendmail
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install golang-go \
-   && mkdir /opt/go \
-   && export GOPATH=/opt/go \
-   && go get github.com/mailhog/mhsendmail
+	&& mkdir /opt/go \
+	&& export GOPATH=/opt/go \
+	&& go get github.com/mailhog/mhsendmail
 
 # Install Magerun 2
 
@@ -113,6 +117,17 @@ RUN curl -o /etc/bash_completion.d/m2install-bash-completion https://raw.githubu
 RUN curl -o /etc/bash_completion.d/n98-magerun2.phar.bash https://raw.githubusercontent.com/netz98/n98-magerun2/master/res/autocompletion/bash/n98-magerun2.phar.bash
 RUN echo "source /etc/bash_completion" >> /root/.bashrc
 RUN echo "source /etc/bash_completion" >> /var/www/.bashrc
+
+# INSTALL SENDMAIL
+RUN apt install -y sendmail-bin && \
+	apt install -y sendmail && \
+	apt install -y yes && \
+	yes 'y' | sendmailconfig
+
+# Install Oh-My-Zsh
+RUN chsh -s $(which zsh) && \
+	wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O - | zsh || true && \
+	sed -i "s/robbyrussell/ys/g" ~/.zshrc
 
 RUN chmod 777 -Rf /var/www /var/www/.* \
 	&& chown -Rf www-data:www-data /var/www /var/www/.* \
