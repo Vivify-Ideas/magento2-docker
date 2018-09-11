@@ -3,13 +3,15 @@
 #  Magento 2 Docker to Development
 
 ### Apache 2.4 + PHP 7.0 + OPCache + MariaDB + N98 Magerun 2 + XDebug + Redis
-
+<!--
+TODO: This should be updated when Microbadger site gets the option to display badges for private repositories
 [![Build Status](https://travis-ci.org/clean-docker/Magento2.svg?branch=master)](https://travis-ci.org/clean-docker/Magento2)
 [![Docker Build](https://img.shields.io/docker/build/rafaelcgstz/magento2.svg)](https://hub.docker.com/r/rafaelcgstz/magento2/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/rafaelcgstz/magento2.svg)](https://hub.docker.com/r/rafaelcgstz/magento2/)
 [![Docker Starts](https://img.shields.io/docker/stars/rafaelcgstz/magento2.svg)](https://hub.docker.com/r/rafaelcgstz/magento2/)
 [![Build Status](https://images.microbadger.com/badges/image/rafaelcgstz/magento2.svg)](https://microbadger.com/images/rafaelcgstz/magento2)
-[![Releases](https://img.shields.io/github/release/clean-docker/Magento2.svg)](https://github.com/clean-docker/Magento2/releases)
+[![Releases](https://img.shields.io/github/release/clean-docker/Magento2.svg)](https://github.com/clean-docker/Magento2/releases) 
+-->
 
 ### Requirements
 
@@ -48,9 +50,13 @@ You can specify the version that want install (e.g. `install-magento2 2.2`).
 
 Enjoy your new panels!
 
-**Web server:** http://localhost/
+**Web server:** http://localhost:8080/
 
-**PHPMyAdmin:** http://localhost:8080
+**Varnish cache:** http://localhost
+
+**Elastic search:** http://localhost:9200
+
+**PHPMyAdmin:** http://localhost:8081
 
 **Local emails:** http://localhost:8025
 
@@ -70,18 +76,4 @@ Enjoy your new panels!
 | `./xdebug`  |  Enable / Disable the XDebug | |
 | `./composer`  |  Use Composer commands | `./composer update` |
 
-### Elasticsearch 
-
-To use elastic search you can use this command below:
-
-`$ docker-compose -f docker-compose.yml -f docker-compose.elasticsearch.yml up`
-
-or to run in the background using detached mode
-
-`$ docker-compose -f docker-compose.yml -f docker-compose.elasticsearch.yml up -d`
-
 **Elasticsearch:** http://localhost:9200
-
-### License
-
-MIT © 2018 [Rafael Corrêa Gomes](https://github.com/rafaelstz/) and [contributors](https://github.com/clean-docker/Magento2/graphs/contributors).
