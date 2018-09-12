@@ -4,7 +4,6 @@ if [ $@ ]; then
 else
   composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition . ;
 fi
-composer require smile/elasticsuite;
 chmod u+w -R ./var ./vendor ./pub/static ./pub/media ./app/etc \
 && chmod u+x ./bin/magento \
 && php -f ./bin/magento setup:install --base-url=http://localhost:8080/ \
@@ -25,8 +24,6 @@ chmod u+w -R ./var ./vendor ./pub/static ./pub/media ./app/etc \
 && mv ./app/etc/env.php ./app/etc/env.original.php;
 cp -rv /var/www/env.sample.php ./app/etc/env.php;
 n98 cron:install;
-php -f ./bin/magento config:set -l smile_elasticsuite_core_base_settings/es_client/servers "elasticsearch:9200" \
-&& ./bin/magento app:config:import;
 php -f ./bin/magento indexer:set-mode schedule;
 cp ~/.composer/auth.json var/composer_home/auth.json \
 && php -f ./bin/magento setup:upgrade \
@@ -37,6 +34,12 @@ npm i;
 php -f ./bin/magento deploy:mode:set developer \
 && composer dump-autoload -o \
 && chown www-data:www-data /var/www/html -R \
+&& composer require smile/elasticsuite \
+&& php -f ./bin/magento module:enable Smile_ElasticsuiteCore Smile_ElasticsuiteCatalog Smile_ElasticsuiteSwatches Smile_ElasticsuiteCatalogRule Smile_ElasticsuiteVirtualCategory Smile_ElasticsuiteThesaurus Smile_ElasticsuiteCatalogOptimizer Smile_ElasticsuiteTracker \
+&& php -f ./bin/magento config:set -l smile_elasticsuite_core_base_settings/es_client/servers "elasticsearch:9200" \
+&& php -f ./bin/magento app:config:import \
+&& php -f ./bin/magento setup:upgrade \
+&& php -f ./bin/magento index:reindex \
 && clear && echo "
 ===================== 🚀 Done 🚀 ===================
 
