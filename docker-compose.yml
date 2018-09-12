@@ -53,7 +53,9 @@ services:
       - <project_name>-network
 
   elasticsearch:
-    image: elasticsearch:5.6
+    build:
+      context: .docker/elasticsearch
+    # image: elasticsearch:5.6
     hostname: elasticsearch
     environment:
       - cluster.name=docker-cluster
