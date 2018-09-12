@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   apache:
     image: gninkovic/clean-docker
@@ -93,9 +93,9 @@ services:
       - "80:80"
       - "6082:6082"
     volumes:
-      - .docker/varnish_serverdefault.vcl:/etc/varnish/default.vcl
-      - .docker/varnish_servervarnish:/etc/default/varnish
-      - .docker/varnish_serversupervisord.conf:/etc/supervisor/conf.d/supervisor.conf
+      - .docker/varnish_server/default.vcl:/etc/varnish/default.vcl
+      - .docker/varnish_server/varnish:/etc/default/varnish
+      - .docker/varnish_server/supervisord.conf:/etc/supervisor/conf.d/supervisor.conf
     depends_on:
       - apache
     links:
