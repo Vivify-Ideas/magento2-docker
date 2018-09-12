@@ -33,12 +33,13 @@ mv package.json.sample package.json ; mv Gruntfile.js.sample Gruntfile.js;
 npm i;
 php -f ./bin/magento deploy:mode:set developer \
 && composer dump-autoload -o \
+&& chown www-data:www-data /var/www/html -R \
 && clear && echo "
 ===================== 🚀 Done 🚀 ===================
 
       Magento 2 Installed successfully!
 
-      🌎 Admin: http://localhost/admin
+      🌎 Admin: http://localhost:8080/admin
       👤 User: admin
       🔑 Password: admin123
 
