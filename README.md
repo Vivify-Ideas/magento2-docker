@@ -3,15 +3,14 @@
 #  Magento 2 Docker to Development
 
 ### Apache 2.4 + PHP 7.0 + OPCache + MariaDB + N98 Magerun 2 + XDebug + Redis
-<!--
+
 TODO: This should be updated when Microbadger site gets the option to display badges for private repositories
-[![Build Status](https://travis-ci.org/clean-docker/Magento2.svg?branch=master)](https://travis-ci.org/clean-docker/Magento2)
-[![Docker Build](https://img.shields.io/docker/build/rafaelcgstz/magento2.svg)](https://hub.docker.com/r/rafaelcgstz/magento2/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/rafaelcgstz/magento2.svg)](https://hub.docker.com/r/rafaelcgstz/magento2/)
-[![Docker Starts](https://img.shields.io/docker/stars/rafaelcgstz/magento2.svg)](https://hub.docker.com/r/rafaelcgstz/magento2/)
-[![Build Status](https://images.microbadger.com/badges/image/rafaelcgstz/magento2.svg)](https://microbadger.com/images/rafaelcgstz/magento2)
-[![Releases](https://img.shields.io/github/release/clean-docker/Magento2.svg)](https://github.com/clean-docker/Magento2/releases) 
--->
+[![Build Status](https://travis-ci.org/TerrorSquad/clean-docker.svg?branch=master)](https://travis-ci.org/TerrorSquad/clean-docker)
+[![Docker Build](https://img.shields.io/docker/build/gninkovic/clean-docker.svg)](https://hub.docker.com/r/gninkovic/clean-docker/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/gninkovic/clean-docker.svg)](https://hub.docker.com/r/gninkovic/clean-docker/)
+[![Docker Starts](https://img.shields.io/docker/stars/gninkovic/clean-docker.svg)](https://hub.docker.com/r/gninkovic/clean-docker/)
+[![Build Status](https://images.microbadger.com/badges/image/gninkovic/clean-docker.svg)](https://microbadger.com/images/gninkovic/clean-docker)
+[![Releases](https://img.shields.io/github/release/TerrorSquad/clean-docker.svg)](https://github.com/TerrorSquad/clean-docker/releases)
 
 ### Requirements
 
