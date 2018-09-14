@@ -103,6 +103,12 @@ RUN wget https://files.magerun.net/n98-magerun2.phar \
 	&& chmod +x ./n98-magerun2.phar \
 	&& mv ./n98-magerun2.phar /usr/local/bin/
 
+# Install Pestle
+RUN curl -Lo /root/pestle.phar http://pestle.pulsestorm.net/pestle.phar \
+	&& chmod +x /root/pestle.phar \
+	&& ln -s /root/pestle.phar /usr/local/bin/pestle;
+
+
 # Configuring system
 
 ADD .docker/config/php.ini /usr/local/etc/php/php.ini
