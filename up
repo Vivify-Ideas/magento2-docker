@@ -4,7 +4,7 @@ docker-compose  up -d   # && \
 echo "
 ===================== 🚀 Done 🚀 ===================
 
-      Created by Rafael Corrêa Gomes
+      Created by Goran Ninkovic
       v.$version
       Access your new links:
 
