@@ -124,10 +124,19 @@ RUN curl -o /etc/bash_completion.d/n98-magerun2.phar.bash https://raw.githubuser
 RUN echo "source /etc/bash_completion" >> /root/.bashrc
 RUN echo "source /etc/bash_completion" >> /var/www/.bashrc
 
-# INSTALL SENDMAIL
-RUN apt install -y sendmail-bin && \
-	apt install -y sendmail && \
-	yes 'y' | sendmailconfig
+# SET HOST IN HOSTS
+RUN line=$(head -n 1 /etc/hosts | awk '{printf "%s %s.localdomain %s", $1, $2, $2}') \
+	&& sed -e "1 s/^.*$/${line}/g" /etc/hosts > hosts \
+	&& cp hosts /etc/hosts \
+	rm hosts;
+
+# INSTALL AND CONFIGURE SENDMAIL
+RUN apt install -y sendmail-bin \
+	sendmail \
+	sendmail-cf \
+	m4 \
+	&& yes 'y' | sendmailconfig \
+	&& m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf;
 
 # Install Oh-My-Zsh
 RUN chsh -s $(which zsh) && \
