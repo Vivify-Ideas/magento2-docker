@@ -128,7 +128,7 @@ RUN echo "source /etc/bash_completion" >> /var/www/.bashrc
 RUN line=$(head -n 1 /etc/hosts | awk '{printf "%s %s.localdomain %s", $1, $2, $2}') \
 	&& sed -e "1 s/^.*$/${line}/g" /etc/hosts > hosts \
 	&& cp hosts /etc/hosts \
-	rm hosts;
+	&& rm hosts;
 
 # INSTALL AND CONFIGURE SENDMAIL
 RUN apt install -y sendmail-bin \
