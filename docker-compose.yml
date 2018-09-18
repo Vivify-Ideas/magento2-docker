@@ -6,6 +6,9 @@ services:
     hostname: apache
     ports:
       - "8080:80" # web
+      - "25:25" # receiving mail
+      - "587:587" # sending mail
+      - "465:465" # sending mail
       - "9001:9000" # xdebug
       # - "35729:35729" # live reload
     volumes:
