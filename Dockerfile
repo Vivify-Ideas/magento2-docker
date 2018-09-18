@@ -38,7 +38,6 @@ RUN apt-get update \
 	bash-completion \
 	&& apt-get clean
 
-
 # Install Magento Dependencies
 
 RUN docker-php-ext-configure \
@@ -108,7 +107,6 @@ RUN curl -Lo /root/pestle.phar http://pestle.pulsestorm.net/pestle.phar \
 	&& chmod +x /root/pestle.phar \
 	&& ln -s /root/pestle.phar /usr/local/bin/pestle;
 
-
 # Configuring system
 
 ADD .docker/config/php.ini /usr/local/etc/php/php.ini
@@ -124,19 +122,11 @@ RUN curl -o /etc/bash_completion.d/n98-magerun2.phar.bash https://raw.githubuser
 RUN echo "source /etc/bash_completion" >> /root/.bashrc
 RUN echo "source /etc/bash_completion" >> /var/www/.bashrc
 
-# SET HOST IN HOSTS
-RUN line=$(head -n 1 /etc/hosts | awk '{printf "%s %s.localdomain %s", $1, $2, $2}') \
-	&& sed -e "1 s/^.*$/${line}/g" /etc/hosts > hosts \
-	&& cp hosts /etc/hosts \
-	&& rm hosts;
-
 # INSTALL AND CONFIGURE SENDMAIL
-RUN apt install -y sendmail-bin \
-	sendmail \
-	sendmail-cf \
-	m4 \
+RUN apt install -y sendmail \
 	&& yes 'y' | sendmailconfig \
-	&& m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf;
+	&& apt autoremove \
+	&& apt autoclean;
 
 # Install Oh-My-Zsh
 RUN chsh -s $(which zsh) && \
