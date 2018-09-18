@@ -127,7 +127,6 @@ RUN echo "source /etc/bash_completion" >> /var/www/.bashrc
 # INSTALL SENDMAIL
 RUN apt install -y sendmail-bin && \
 	apt install -y sendmail && \
-	apt install -y yes && \
 	yes 'y' | sendmailconfig
 
 # Install Oh-My-Zsh
