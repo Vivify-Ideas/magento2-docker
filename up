@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-docker-compose  up -d   # && \
+docker-compose  up -d  && \
+docker-compose exec --user root apache sh -c "yes 'y' | sendmailconfig" \
 # version=$(git describe --tags $(git rev-list --tags --max-count=1))
-echo "
+&& echo "
 ===================== 🚀 Done 🚀 ===================
 
       Created by Goran Ninkovic
