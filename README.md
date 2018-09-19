@@ -2,9 +2,8 @@
 
 #  Magento 2 Docker to Development
 
-### Apache 2.4 + PHP 7.1 + OPCache + MariaDB + N98 Magerun 2 + XDebug + Redis + ElastiSearch + Varnish Cache
+### Apache 2.4 + PHP 7.1 + OPCache +  Redis + Varnish Cache + MariaDB + ElasticSearch +  SendMail + N98 Magerun 2 + XDebug
 
-#
 [![Build Status](https://travis-ci.org/TerrorSquad/clean-docker.svg?branch=master)](https://travis-ci.org/TerrorSquad/clean-docker)
 [![Docker Build](https://img.shields.io/docker/build/gninkovic/clean-docker.svg)](https://hub.docker.com/r/gninkovic/clean-docker/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/gninkovic/clean-docker.svg)](https://hub.docker.com/r/gninkovic/clean-docker/)
