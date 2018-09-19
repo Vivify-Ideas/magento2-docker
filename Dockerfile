@@ -123,10 +123,10 @@ RUN echo "source /etc/bash_completion" >> /root/.bashrc
 RUN echo "source /etc/bash_completion" >> /var/www/.bashrc
 
 # INSTALL AND CONFIGURE SENDMAIL
-RUN apt install -y sendmail \
-	&& yes 'y' | sendmailconfig \
-	&& apt autoremove \
-	&& apt autoclean;
+RUN apt-get install -y sendmail-bin sendmail;
+# Clean up
+RUN apt-get autoremove -y \
+	&& apt-get autoclean -y;
 
 # Install Oh-My-Zsh
 RUN chsh -s $(which zsh) && \
