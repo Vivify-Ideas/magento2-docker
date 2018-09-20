@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 docker-compose start \
-&& docker-compose exec apache zsh -c "add-fqdn";
+&& docker-compose exec apache sh -c "add-fqdn" \
+&& docker-compose exec apache sh -c "service sendmail restart";
